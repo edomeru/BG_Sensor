@@ -307,6 +307,16 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         return -1
     }
     
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        
+        if (error != nil) {
+            print("Encountered error DC: \(error!.localizedDescription)")
+            centralManager.cancelPeripheralConnection(peripheral)               //DISCONNECT
+            //centralManager.retrievePeripherals(withIdentifiers: [(discoveredPeripheral?.identifier)!])      //RECONNECT
+              startScan()
+            return
+        }
+    }
 }
 
 

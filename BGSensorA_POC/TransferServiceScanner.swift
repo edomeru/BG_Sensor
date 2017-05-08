@@ -60,10 +60,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     
     func startScan() {
         print("Start scan")
-        let services = [CBUUID(string: Const.UUID.kTransferServiceUUID)]
-        print("startScan  \(Const.UUID.kTransferServiceUUID)")
-        let options = Dictionary(dictionaryLiteral:
-            (CBCentralManagerScanOptionAllowDuplicatesKey, false))
+        
         centralManager.scanForPeripherals(withServices: nil, options: nil)
         delegate?.didStartScan()
     }
@@ -81,8 +78,8 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         let deviceName = "BG Sensor A"
         let nameOfDeviceFound = (advertisementData as NSDictionary).object(forKey: CBAdvertisementDataLocalNameKey) as? NSString
         print("didDiscoverPeripheral \(nameOfDeviceFound)")
-
-
+        
+        
         //CHECK NUMBER OF BG SENSOR DEVICES, IF ZERO RECALL CBCentralManager
         if let localName = nameOfDeviceFound {
             
@@ -95,7 +92,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
             
             print("NUMBER OF BG SENSOR! \(self.numberofBGSensor)")
             
-
+            
             if(deviceName == localName as String ){
                 
                 if discoveredPeripheral == nil {
@@ -144,7 +141,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
             peripheral.discoverServices(nil)
             
         }
- 
+        
     }
     
     
@@ -206,13 +203,18 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     //override
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         print("didUpdateValueForCharacteristic")
-    
-
+        
+        if (error != nil) {
+            print("Encountered error: \(error!.localizedDescription)")
+            centralManager.cancelPeripheralConnection(peripheral)               //DISCONNECT
+            return
+        }
+        
         let  characValue  =  convertToInt(characteristic)
         
         
         
-        if characValue != 0 {
+        if characValue == 0 {
             dispatchTimerA(peripheral)
             
         }else{
@@ -249,9 +251,10 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     }
     
     func  writeZeroToShake(_ peripheral: CBPeripheral, characteristic: CBCharacteristic){
-        let data = Data(bytes: [0x00])
+        let data = Data(bytes: [0x00, 0x00])
         
-        
+        print("characteristic \(characteristic.value)")
+        print("data \(data)")
         peripheral.writeValue(data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
         
         
@@ -263,6 +266,21 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         
         print("convertedValue \(convertedValue)")
         
+        if (error != nil) {
+            print("Encountered error: \(error!.localizedDescription)")
+            centralManager.cancelPeripheralConnection(peripheral)               //DISCONNECT
+            centralManager.retrievePeripherals(withIdentifiers: [(discoveredPeripheral?.identifier)!])      //RECONNECT
+            return
+        }else{
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(200)) {
+                print("didWriteValueFor")
+                peripheral.delegate = self
+                peripheral.discoverServices(nil)
+            }
+            
+            
+        }
+        
     }
     
     func convertToInt(_ characteristic: CBCharacteristic) -> Int {
@@ -272,6 +290,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         if let data = characteristic.value {
             
             var bytes = Array(repeating: 0 as UInt8, count:data.count/MemoryLayout<UInt8>.size)
+            
             
             data.copyBytes(to: &bytes, count:data.count)
             let data16 = bytes.map { UInt16($0) }

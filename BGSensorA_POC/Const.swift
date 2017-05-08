@@ -12,7 +12,7 @@ import Foundation
 struct Const {
     
     struct UUID {
-        static let kTransferServiceUUID = "117666C3-4768-4B0C-8C59-68CBF527DFDA"
+        static let kTransferServiceUUID = "0000AF00-0000-1000-8000-00805f9b34fb"
     }
     
 }

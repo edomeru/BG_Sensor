@@ -55,27 +55,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1k1-e0-R9F">
-                                <rect key="frame" x="67" y="489" width="104" height="30"/>
-                                <state key="normal" title="CONNECT">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="connectFunc:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fu8-rI-lZQ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OL7-pB-LNR">
-                                <rect key="frame" x="172" y="489" width="135" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="eKE-gJ-IoV"/>
-                                </constraints>
-                                <state key="normal" title="DISCONNECT">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="dcFunc:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dXa-HF-oPE"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting....." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGs-jF-bUi">
                                 <rect key="frame" x="133" y="272" width="109" height="21"/>
                                 <constraints>
@@ -108,19 +87,13 @@
                         <color key="backgroundColor" red="0.54891865974723464" green="0.88194061499975107" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="b1y-cC-Rxl" secondAttribute="leading" id="4hN-Ww-eGg"/>
-                            <constraint firstItem="OL7-pB-LNR" firstAttribute="width" secondItem="1k1-e0-R9F" secondAttribute="width" constant="31" id="5ev-v4-xCP"/>
                             <constraint firstItem="gRf-Gp-ROJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-51.5" id="7sN-zz-Lxc"/>
-                            <constraint firstItem="1k1-e0-R9F" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="51" id="BSm-Ga-IHv"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1k1-e0-R9F" secondAttribute="bottom" constant="148" id="KSq-m9-NVC"/>
                             <constraint firstItem="PS5-BR-ASg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LWi-ku-Lvh"/>
                             <constraint firstItem="gRf-Gp-ROJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TEg-sA-u2z"/>
                             <constraint firstItem="LXd-tj-0wN" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="X6o-nA-bVB"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="OL7-pB-LNR" secondAttribute="bottom" constant="148" id="Y9e-iH-SFn"/>
                             <constraint firstItem="dGs-jF-bUi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-51" id="ZBI-C8-UWc"/>
                             <constraint firstAttribute="trailing" secondItem="LXd-tj-0wN" secondAttribute="trailing" id="bGY-4r-ekD"/>
-                            <constraint firstItem="OL7-pB-LNR" firstAttribute="leading" secondItem="1k1-e0-R9F" secondAttribute="trailing" constant="1" id="dib-Yz-M2A"/>
                             <constraint firstItem="dGs-jF-bUi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qsd-n1-8gK"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="OL7-pB-LNR" secondAttribute="trailing" constant="52" id="sXZ-4X-p24"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="b1y-cC-Rxl" secondAttribute="bottom" constant="20" id="xWa-ol-LCA"/>
                             <constraint firstItem="PS5-BR-ASg" firstAttribute="top" secondItem="gRf-Gp-ROJ" secondAttribute="bottom" constant="8" id="ygA-ll-ATs"/>
                             <constraint firstItem="LXd-tj-0wN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="zyd-Pp-mos"/>

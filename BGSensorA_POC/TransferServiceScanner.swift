@@ -47,6 +47,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         switch (central.state) {
         case .poweredOn:
             print("Central Manager powered on.")
+            startScan()
             break
         case .poweredOff:
             print("Central Manager powered off.")

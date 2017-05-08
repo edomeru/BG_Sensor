@@ -31,14 +31,14 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
 
     
     
-    @IBAction func connectFunc(_ sender: Any) {
-        tktCoreLocation.startScan()
-    }
-    
-
-    @IBAction func dcFunc(_ sender: Any) {
-        tktCoreLocation.stopScan()
-    }
+//    @IBAction func connectFunc(_ sender: Any) {
+//        tktCoreLocation.startScan()
+//    }
+//    
+//
+//    @IBAction func dcFunc(_ sender: Any) {
+//        tktCoreLocation.stopScan()
+//    }
     
     
     func didStartScan() {

@@ -55,6 +55,7 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
     func didConnect() {
         connectingLabel.isHidden = true
         secureImage.isHidden = false
+        secureImage.image =  UIImage(named: "secure")
     }
     
     func didNotConnect() {

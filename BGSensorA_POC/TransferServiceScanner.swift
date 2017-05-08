@@ -33,7 +33,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     var discoveredPeripheral: CBPeripheral?
     var data: NSMutableData = NSMutableData()
     weak var delegate: TransferServiceScannerDelegate?
- 
+    
     
     
     init(delegate: TransferServiceScannerDelegate?) {
@@ -77,70 +77,54 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     func centralManager(_ central: CBCentralManager, didDiscoverPeripheral peripheral:
         CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print("didDiscoverPeripheral \(peripheral.identifier)")
-      
+        
         let deviceName = "BG Sensor A"
         let nameOfDeviceFound = (advertisementData as NSDictionary).object(forKey: CBAdvertisementDataLocalNameKey) as? NSString
-         print("didDiscoverPeripheral \(nameOfDeviceFound)")
-        // reject if above reasonable range, or too low
-//        if (RSSI.intValue > -15) || (RSSI.intValue < -35) {
-//            print("not in range, RSSI is \(RSSI.intValue)")
-//            return;
-//        }
-        
-        //if (UUID(uuidString: Const.UUID.kTransferServiceUUID) == peripheral.identifier) {
-        
-        
-        
-        
-        
+        print("didDiscoverPeripheral \(nameOfDeviceFound)")
+
+
         //CHECK NUMBER OF BG SENSOR DEVICES, IF ZERO RECALL CBCentralManager
         if let localName = nameOfDeviceFound {
             
             if localName.contains(deviceName){
-
+                
                 self.numberofBGSensor += 1
-               
+                
                 
             }
             
-             print("NUMBER OF BG SENSOR! \(self.numberofBGSensor)")
+            print("NUMBER OF BG SENSOR! \(self.numberofBGSensor)")
             
-//            if numberofBGSensor == 0 {
-//                print("WALANG BG SENSOR! ")
-//                centralManager = CBCentralManager(delegate: self, queue: nil)
-//                
-//            }
-            
-            
-        if(deviceName == localName as String ){
-            
-            if discoveredPeripheral == nil {
+
+            if(deviceName == localName as String ){
                 
-                print("discoveredPeripheral NIL BA? \(discoveredPeripheral)")
-                discoveredPeripheral = peripheral
-                print("discoveredPeripheral AFTER \(discoveredPeripheral)")
-                print("connecting to peripheral \(peripheral)")
-                centralManager.connect(peripheral, options: nil)
-                
-                
-                
-            }else{
-                
-                if (discoveredPeripheral?.identifier != peripheral.identifier) {
+                if discoveredPeripheral == nil {
+                    
+                    print("discoveredPeripheral NIL BA? \(discoveredPeripheral)")
                     discoveredPeripheral = peripheral
+                    print("discoveredPeripheral AFTER \(discoveredPeripheral)")
+                    print("connecting to peripheral \(peripheral)")
+                    centralManager.connect(peripheral, options: nil)
+                    
+                    
+                    
+                }else{
+                    
+                    if (discoveredPeripheral?.identifier != peripheral.identifier) {
+                        discoveredPeripheral = peripheral
+                    }
+                    
+                    print("discoveredPeripheral ELSE NIL BA? \(discoveredPeripheral)")
+                    
+                    print("connecting to peripheral ELSE \(peripheral)")
+                    
+                    if let discoverPeripheral = discoveredPeripheral{
+                        centralManager.connect(discoverPeripheral, options: nil)
+                    }
                 }
                 
-                print("discoveredPeripheral ELSE NIL BA? \(discoveredPeripheral)")
-             
-                print("connecting to peripheral ELSE \(peripheral)")
                 
-                if let discoverPeripheral = discoveredPeripheral{
-                centralManager.connect(discoverPeripheral, options: nil)
-                    }
-            }
-            
-           
-           
+                
             }
         }
     }
@@ -148,7 +132,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     func centralManager(_ central: CBCentralManager!, didConnect peripheral:
         CBPeripheral!) {
         print("didConnectPeripheral")
-       
+        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(200)) {
             
             print("Dispatch timerA event after 200ms")
@@ -160,9 +144,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
             peripheral.discoverServices(nil)
             
         }
-        
-    
-       
+ 
     }
     
     
@@ -171,7 +153,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         print("didFailToConnectPeripheral")
         delegate?.didNotConnect()
         
-       
+        
         
     }
     
@@ -179,8 +161,8 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         print("didDiscoverServices")
         print("didDiscoverServices  HOY  PERIPHERAL\(peripheral.services! )")
-         //print("didDiscoverServices  HOY  \(peripheral.discoverServices([CBUUID(string: "AAOO")]))")
-   
+        //print("didDiscoverServices  HOY  \(peripheral.discoverServices([CBUUID(string: "AAOO")]))")
+        
         
         
         if (error != nil) {
@@ -190,7 +172,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         // look for the characteristics we want
         for service in peripheral.services! {
             print("SERVICES IN LOOP   \(service)")
-         peripheral.discoverCharacteristics(nil,
+            peripheral.discoverCharacteristics(nil,
                                                for: service)
             
             print(" SERVICE   \(service.uuid)")
@@ -210,13 +192,13 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         let cbuuid = CBUUID(string: "AA01")
         for characteristic in service.characteristics! {
             print("characteristic.UUID is \(characteristic.uuid)")
-         
-           
+            
+            
             if characteristic.uuid == cbuuid {
                 //peripheral.setNotifyValue(true, for: characteristic)
                 peripheral.readValue(for: characteristic)
                 print("SHAKE CHARAC  \(characteristic)")
-            
+                
             }
         }
     }
@@ -224,36 +206,24 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     //override
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         print("didUpdateValueForCharacteristic")
-         print("value \(characteristic.value!)")
-        
-//        let data = characteristic.value!
-//        let dataString = String(data: data, encoding: String.Encoding.utf8)
-//          print("dataString \(dataString)")
-        
-        
-        var wavelength: UInt16?
-        if let data = characteristic.value {
-            var bytes = Array(repeating: 0 as UInt8, count:data.count/MemoryLayout<UInt8>.size)
-            
-            data.copyBytes(to: &bytes, count:data.count)
-            let data16 = bytes.map { UInt16($0) }
-            wavelength = 256 * data16[1] + data16[0]
-        }
-        if let characValue = wavelength{
-        print("THE CHARAC VALUE IS \(characValue)")
-            
-            if characValue == 0 {
-               dispatchTimerA(peripheral)
-                
-            }else{
-                self.delegate?.didTrigger()
-                dispatchTimerB(peripheral)
-            }
-        }
-            
-        }
-        
+    
 
+        let  characValue  =  convertToInt(characteristic)
+        
+        
+        
+        if characValue != 0 {
+            dispatchTimerA(peripheral)
+            
+        }else{
+            self.delegate?.didTrigger()
+            dispatchTimerB(peripheral, characteristic: characteristic)
+        }
+        
+        
+    }
+    
+    
     func dispatchTimerA(_ peripheral: CBPeripheral){
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(200)) {
             peripheral.delegate = self
@@ -262,13 +232,61 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         
     }
     
-    func dispatchTimerB(_ peripheral: CBPeripheral){
+    func dispatchTimerB(_ peripheral: CBPeripheral, characteristic: CBCharacteristic){
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(1500)) {
             print("TIMER B")
+            self.timerB(peripheral,characteristic: characteristic)
         }
         
     }
     
+    
+    func timerB(_ peripheral: CBPeripheral, characteristic: CBCharacteristic){
+        self.delegate?.didConnect()
+        print("INSIDE TIMER B")
+        writeZeroToShake(peripheral,characteristic: characteristic)
     }
+    
+    func  writeZeroToShake(_ peripheral: CBPeripheral, characteristic: CBCharacteristic){
+        let data = Data(bytes: [0x00])
+        
+        
+        peripheral.writeValue(data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
+        
+        
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        
+        let convertedValue =  convertToInt(characteristic)
+        
+        print("convertedValue \(convertedValue)")
+        
+    }
+    
+    func convertToInt(_ characteristic: CBCharacteristic) -> Int {
+        
+        var wavelength: UInt16?
+        
+        if let data = characteristic.value {
+            
+            var bytes = Array(repeating: 0 as UInt8, count:data.count/MemoryLayout<UInt8>.size)
+            
+            data.copyBytes(to: &bytes, count:data.count)
+            let data16 = bytes.map { UInt16($0) }
+            wavelength = 256 * data16[1] + data16[0]
+        }
+        
+        if let characValue = wavelength {
+            print("didWriteValueFor TIMER B  \(characValue)")
+            
+            return Int(characValue)
+        }
+        
+        return -1
+    }
+    
+}
+
 

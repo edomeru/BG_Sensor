@@ -62,5 +62,10 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
         secureImage.isHidden = true
     }
     
+    func didTrigger() {
+        connectingLabel.isHidden = true
+        secureImage.image =  UIImage(named: "sensor-triggered")
+    }
+    
 }
 

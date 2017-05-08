@@ -22,6 +22,7 @@ protocol TransferServiceScannerDelegate: NSObjectProtocol {
     func didStopScan()
     func didConnect()
     func didNotConnect()
+    func didTrigger()
     func didTransferData(data: NSData?)
 }
 
@@ -220,32 +221,54 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
     
+    //override
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         print("didUpdateValueForCharacteristic")
-         print("value \(characteristic.value)")
+         print("value \(characteristic.value!)")
         
-       
+//        let data = characteristic.value!
+//        let dataString = String(data: data, encoding: String.Encoding.utf8)
+//          print("dataString \(dataString)")
+        
+        
+        var wavelength: UInt16?
+        if let data = characteristic.value {
+            var bytes = Array(repeating: 0 as UInt8, count:data.count/MemoryLayout<UInt8>.size)
             
-//        let data = Data(bytes: characteristic.value)
-//        print(data.hexEncodedString())
+            data.copyBytes(to: &bytes, count:data.count)
+            let data16 = bytes.map { UInt16($0) }
+            wavelength = 256 * data16[1] + data16[0]
+        }
+        if let characValue = wavelength{
+        print("THE CHARAC VALUE IS \(characValue)")
+            
+            if characValue == 0 {
+               dispatchTimerA(peripheral)
+                
+            }else{
+                self.delegate?.didTrigger()
+                dispatchTimerB(peripheral)
+            }
+        }
+            
+        }
         
-      
+
+    func dispatchTimerA(_ peripheral: CBPeripheral){
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(200)) {
+            peripheral.delegate = self
+            peripheral.discoverServices(nil)
+        }
         
-//        if (error != nil) {
-//            print("Encountered error: \(error!.localizedDescription)")
-//            return
-//        }
-//        let stringFromData = NSString(data: characteristic.value!, encoding:
-//            String.Encoding.utf8.rawValue)
-//        print("received \(stringFromData)")
-//        if stringFromData == "EOM" {
-//            // data transfer is complete, so notify delegate
-//            delegate?.didTransferData(data: data)
-//            // unsubscribe from characteristic
-//            peripheral.setNotifyValue(false, for: characteristic)
-//            // disconnect from peripheral
-//            centralManager.cancelPeripheralConnection(peripheral)
-//        }
-//        data.append(characteristic.value!)
     }
-}
+    
+    func dispatchTimerB(_ peripheral: CBPeripheral){
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(1500)) {
+            print("TIMER B")
+        }
+        
+    }
+    
+    }
+

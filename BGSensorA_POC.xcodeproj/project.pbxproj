@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E66254111EBAD8E6002CBBF2 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66254101EBAD8E6002CBBF2 /* Const.swift */; };
 		E66C0E821EB96FE600525863 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C0E811EB96FE600525863 /* AppDelegate.swift */; };
-		E66C0E841EB96FE600525863 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C0E831EB96FE600525863 /* ViewController.swift */; };
+		E66C0E841EB96FE600525863 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C0E831EB96FE600525863 /* HomeViewController.swift */; };
 		E66C0E871EB96FE600525863 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E66C0E851EB96FE600525863 /* Main.storyboard */; };
 		E66C0E8A1EB96FE600525863 /* BGSensorA_POC.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E66C0E881EB96FE600525863 /* BGSensorA_POC.xcdatamodeld */; };
 		E66C0E8C1EB96FE600525863 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E66C0E8B1EB96FE600525863 /* Assets.xcassets */; };
 		E66C0E8F1EB96FE600525863 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E66C0E8D1EB96FE600525863 /* LaunchScreen.storyboard */; };
 		E66C0E9A1EB96FE600525863 /* BGSensorA_POCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C0E991EB96FE600525863 /* BGSensorA_POCTests.swift */; };
 		E66C0EA51EB96FE600525863 /* BGSensorA_POCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C0EA41EB96FE600525863 /* BGSensorA_POCUITests.swift */; };
+		E66C0EE21EB996F800525863 /* FortFoundry-IndustryBook.otf in Resources */ = {isa = PBXBuildFile; fileRef = E66C0EE01EB996F800525863 /* FortFoundry-IndustryBook.otf */; };
+		E66C0EE31EB996F800525863 /* FortFoundry-IndustryMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E66C0EE11EB996F800525863 /* FortFoundry-IndustryMedium.otf */; };
+		E66C0EE51EB9D92700525863 /* TransferServiceScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C0EE41EB9D92700525863 /* TransferServiceScanner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,9 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E66254101EBAD8E6002CBBF2 /* Const.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		E66C0E7E1EB96FE600525863 /* BGSensorA_POC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BGSensorA_POC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66C0E811EB96FE600525863 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E66C0E831EB96FE600525863 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E66C0E831EB96FE600525863 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E66C0E861EB96FE600525863 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E66C0E891EB96FE600525863 /* BGSensorA_POC.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BGSensorA_POC.xcdatamodel; sourceTree = "<group>"; };
 		E66C0E8B1EB96FE600525863 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +54,9 @@
 		E66C0EA01EB96FE600525863 /* BGSensorA_POCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BGSensorA_POCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66C0EA41EB96FE600525863 /* BGSensorA_POCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGSensorA_POCUITests.swift; sourceTree = "<group>"; };
 		E66C0EA61EB96FE600525863 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E66C0EE01EB996F800525863 /* FortFoundry-IndustryBook.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FortFoundry-IndustryBook.otf"; sourceTree = "<group>"; };
+		E66C0EE11EB996F800525863 /* FortFoundry-IndustryMedium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FortFoundry-IndustryMedium.otf"; sourceTree = "<group>"; };
+		E66C0EE41EB9D92700525863 /* TransferServiceScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferServiceScanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,13 +107,17 @@
 		E66C0E801EB96FE600525863 /* BGSensorA_POC */ = {
 			isa = PBXGroup;
 			children = (
+				E66C0EE01EB996F800525863 /* FortFoundry-IndustryBook.otf */,
+				E66C0EE11EB996F800525863 /* FortFoundry-IndustryMedium.otf */,
 				E66C0E811EB96FE600525863 /* AppDelegate.swift */,
-				E66C0E831EB96FE600525863 /* ViewController.swift */,
+				E66C0E831EB96FE600525863 /* HomeViewController.swift */,
 				E66C0E851EB96FE600525863 /* Main.storyboard */,
 				E66C0E8B1EB96FE600525863 /* Assets.xcassets */,
 				E66C0E8D1EB96FE600525863 /* LaunchScreen.storyboard */,
 				E66C0E901EB96FE600525863 /* Info.plist */,
 				E66C0E881EB96FE600525863 /* BGSensorA_POC.xcdatamodeld */,
+				E66C0EE41EB9D92700525863 /* TransferServiceScanner.swift */,
+				E66254101EBAD8E6002CBBF2 /* Const.swift */,
 			);
 			path = BGSensorA_POC;
 			sourceTree = "<group>";
@@ -196,6 +208,7 @@
 				TargetAttributes = {
 					E66C0E7D1EB96FE600525863 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = TB796AG9JF;
 						ProvisioningStyle = Automatic;
 					};
 					E66C0E941EB96FE600525863 = {
@@ -235,9 +248,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E66C0EE31EB996F800525863 /* FortFoundry-IndustryMedium.otf in Resources */,
 				E66C0E8F1EB96FE600525863 /* LaunchScreen.storyboard in Resources */,
 				E66C0E8C1EB96FE600525863 /* Assets.xcassets in Resources */,
 				E66C0E871EB96FE600525863 /* Main.storyboard in Resources */,
+				E66C0EE21EB996F800525863 /* FortFoundry-IndustryBook.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,9 +277,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E66C0E841EB96FE600525863 /* ViewController.swift in Sources */,
+				E66C0E841EB96FE600525863 /* HomeViewController.swift in Sources */,
 				E66C0E8A1EB96FE600525863 /* BGSensorA_POC.xcdatamodeld in Sources */,
 				E66C0E821EB96FE600525863 /* AppDelegate.swift in Sources */,
+				E66C0EE51EB9D92700525863 /* TransferServiceScanner.swift in Sources */,
+				E66254111EBAD8E6002CBBF2 /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +433,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = TB796AG9JF;
 				INFOPLIST_FILE = BGSensorA_POC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "tektos.BGSensorA-POC";
@@ -428,6 +446,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = TB796AG9JF;
 				INFOPLIST_FILE = BGSensorA_POC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "tektos.BGSensorA-POC";
@@ -509,6 +528,7 @@
 				E66C0EAB1EB96FE600525863 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E66C0EAC1EB96FE600525863 /* Build configuration list for PBXNativeTarget "BGSensorA_POCTests" */ = {
 			isa = XCConfigurationList;
@@ -517,6 +537,7 @@
 				E66C0EAE1EB96FE600525863 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E66C0EAF1EB96FE600525863 /* Build configuration list for PBXNativeTarget "BGSensorA_POCUITests" */ = {
 			isa = XCConfigurationList;
@@ -525,6 +546,7 @@
 				E66C0EB11EB96FE600525863 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

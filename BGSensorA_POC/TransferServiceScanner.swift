@@ -22,6 +22,8 @@ protocol TransferServiceScannerDelegate: NSObjectProtocol {
     func didStopScan()
     func didConnect()
     func didNotConnect()
+    func didTrigger()
+    func didStartSearch()
     func didTransferData(data: NSData?)
 }
 
@@ -32,7 +34,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     var discoveredPeripheral: CBPeripheral?
     var data: NSMutableData = NSMutableData()
     weak var delegate: TransferServiceScannerDelegate?
- 
+    
     
     
     init(delegate: TransferServiceScannerDelegate?) {
@@ -46,6 +48,8 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         switch (central.state) {
         case .poweredOn:
             print("Central Manager powered on.")
+            startScan()
+            
             break
         case .poweredOff:
             print("Central Manager powered off.")
@@ -59,12 +63,9 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     
     func startScan() {
         print("Start scan")
-        let services = [CBUUID(string: Const.UUID.kTransferServiceUUID)]
-        print("startScan  \(Const.UUID.kTransferServiceUUID)")
-        let options = Dictionary(dictionaryLiteral:
-            (CBCentralManagerScanOptionAllowDuplicatesKey, false))
+        
         centralManager.scanForPeripherals(withServices: nil, options: nil)
-        delegate?.didStartScan()
+        delegate?.didStartSearch()
     }
     
     func stopScan() {
@@ -76,70 +77,62 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     func centralManager(_ central: CBCentralManager, didDiscoverPeripheral peripheral:
         CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print("didDiscoverPeripheral \(peripheral.identifier)")
-      
+        
         let deviceName = "BG Sensor A"
         let nameOfDeviceFound = (advertisementData as NSDictionary).object(forKey: CBAdvertisementDataLocalNameKey) as? NSString
-         print("didDiscoverPeripheral \(nameOfDeviceFound)")
-        // reject if above reasonable range, or too low
-//        if (RSSI.intValue > -15) || (RSSI.intValue < -35) {
-//            print("not in range, RSSI is \(RSSI.intValue)")
-//            return;
-//        }
-        
-        //if (UUID(uuidString: Const.UUID.kTransferServiceUUID) == peripheral.identifier) {
-        
-        
-        
+        print("didDiscoverPeripheral \(nameOfDeviceFound)")
         
         
         //CHECK NUMBER OF BG SENSOR DEVICES, IF ZERO RECALL CBCentralManager
         if let localName = nameOfDeviceFound {
             
+          
+            
+            
             if localName.contains(deviceName){
-
+                
                 self.numberofBGSensor += 1
-               
+                
                 
             }
             
-             print("NUMBER OF BG SENSOR! \(self.numberofBGSensor)")
+            print("NUMBER OF BG SENSOR! \(self.numberofBGSensor)")
             
-//            if numberofBGSensor == 0 {
-//                print("WALANG BG SENSOR! ")
-//                centralManager = CBCentralManager(delegate: self, queue: nil)
-//                
-//            }
-            
-            
-        if(deviceName == localName as String ){
-            
-            if discoveredPeripheral == nil {
-                
-                print("discoveredPeripheral NIL BA? \(discoveredPeripheral)")
-                discoveredPeripheral = peripheral
-                print("discoveredPeripheral AFTER \(discoveredPeripheral)")
-                print("connecting to peripheral \(peripheral)")
-                centralManager.connect(peripheral, options: nil)
-                
-                
-                
-            }else{
-                
-                if (discoveredPeripheral?.identifier != peripheral.identifier) {
-                    discoveredPeripheral = peripheral
+          
+            if(deviceName == localName as String ){
+              
+              self.delegate?.didStartScan()
+              print("BEFORE TIMER")
+              DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(800)) {
+                print("AFTER TIMER")
+                if self.discoveredPeripheral == nil {
+                    
+                    print("discoveredPeripheral NIL BA? \(self.discoveredPeripheral)")
+                    self.discoveredPeripheral = peripheral
+                    print("discoveredPeripheral AFTER \(self.discoveredPeripheral)")
+                    print("connecting to peripheral \(peripheral)")
+                    self.centralManager.connect(peripheral, options: nil)
+                    
+                    
+                    
+                }else{
+                    
+                    if (self.discoveredPeripheral?.identifier != peripheral.identifier) {
+                        self.discoveredPeripheral = peripheral
+                    }
+                    
+                    print("discoveredPeripheral ELSE NIL BA? \(self.discoveredPeripheral)")
+                    
+                    print("connecting to peripheral ELSE \(peripheral)")
+                    
+                    if let discoverPeripheral = self.discoveredPeripheral{
+                        self.centralManager.connect(discoverPeripheral, options: nil)
+                    }
                 }
                 
-                print("discoveredPeripheral ELSE NIL BA? \(discoveredPeripheral)")
-             
-                print("connecting to peripheral ELSE \(peripheral)")
                 
-                if let discoverPeripheral = discoveredPeripheral{
-                centralManager.connect(discoverPeripheral, options: nil)
-                    }
+                
             }
-            
-           
-           
             }
         }
     }
@@ -147,7 +140,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     func centralManager(_ central: CBCentralManager!, didConnect peripheral:
         CBPeripheral!) {
         print("didConnectPeripheral")
-       
+        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(200)) {
             
             print("Dispatch timerA event after 200ms")
@@ -160,8 +153,6 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
             
         }
         
-    
-       
     }
     
     
@@ -170,7 +161,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         print("didFailToConnectPeripheral")
         delegate?.didNotConnect()
         
-       
+        
         
     }
     
@@ -178,8 +169,8 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         print("didDiscoverServices")
         print("didDiscoverServices  HOY  PERIPHERAL\(peripheral.services! )")
-         //print("didDiscoverServices  HOY  \(peripheral.discoverServices([CBUUID(string: "AAOO")]))")
-   
+        //print("didDiscoverServices  HOY  \(peripheral.discoverServices([CBUUID(string: "AAOO")]))")
+        
         
         
         if (error != nil) {
@@ -189,7 +180,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         // look for the characteristics we want
         for service in peripheral.services! {
             print("SERVICES IN LOOP   \(service)")
-         peripheral.discoverCharacteristics(nil,
+            peripheral.discoverCharacteristics(nil,
                                                for: service)
             
             print(" SERVICE   \(service.uuid)")
@@ -209,43 +200,133 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         let cbuuid = CBUUID(string: "AA01")
         for characteristic in service.characteristics! {
             print("characteristic.UUID is \(characteristic.uuid)")
-         
-           
+            
+            
             if characteristic.uuid == cbuuid {
                 //peripheral.setNotifyValue(true, for: characteristic)
                 peripheral.readValue(for: characteristic)
                 print("SHAKE CHARAC  \(characteristic)")
-            
+                
             }
         }
     }
     
+    //override
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         print("didUpdateValueForCharacteristic")
-         print("value \(characteristic.value)")
         
-       
+        if (error != nil) {
+            print("Encountered error: \(error!.localizedDescription)")
+            centralManager.cancelPeripheralConnection(peripheral)               //DISCONNECT
+            return
+        }
+        
+        let  characValue  =  convertToInt(characteristic)
+        
+        
+        
+        if characValue == 0 {
+            dispatchTimerA(peripheral)
             
-//        let data = Data(bytes: characteristic.value)
-//        print(data.hexEncodedString())
+        }else{
+            self.delegate?.didTrigger()
+            dispatchTimerB(peripheral, characteristic: characteristic)
+        }
         
-      
         
-//        if (error != nil) {
-//            print("Encountered error: \(error!.localizedDescription)")
-//            return
-//        }
-//        let stringFromData = NSString(data: characteristic.value!, encoding:
-//            String.Encoding.utf8.rawValue)
-//        print("received \(stringFromData)")
-//        if stringFromData == "EOM" {
-//            // data transfer is complete, so notify delegate
-//            delegate?.didTransferData(data: data)
-//            // unsubscribe from characteristic
-//            peripheral.setNotifyValue(false, for: characteristic)
-//            // disconnect from peripheral
-//            centralManager.cancelPeripheralConnection(peripheral)
-//        }
-//        data.append(characteristic.value!)
+    }
+    
+    
+    func dispatchTimerA(_ peripheral: CBPeripheral){
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(200)) {
+            peripheral.delegate = self
+            peripheral.discoverServices(nil)
+        }
+        
+    }
+    
+    func dispatchTimerB(_ peripheral: CBPeripheral, characteristic: CBCharacteristic){
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(1500)) {
+            print("TIMER B")
+            self.timerB(peripheral,characteristic: characteristic)
+        }
+        
+    }
+    
+    
+    func timerB(_ peripheral: CBPeripheral, characteristic: CBCharacteristic){
+        self.delegate?.didConnect()
+        print("INSIDE TIMER B")
+        writeZeroToShake(peripheral,characteristic: characteristic)
+    }
+    
+    func  writeZeroToShake(_ peripheral: CBPeripheral, characteristic: CBCharacteristic){
+        let data = Data(bytes: [0x00, 0x00])
+        
+        print("characteristic \(characteristic.value)")
+        print("data \(data)")
+        peripheral.writeValue(data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
+        
+        
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        
+        let convertedValue =  convertToInt(characteristic)
+        
+        print("convertedValue \(convertedValue)")
+        
+        if (error != nil) {
+            print("Encountered error: \(error!.localizedDescription)")
+            centralManager.cancelPeripheralConnection(peripheral)               //DISCONNECT
+            centralManager.retrievePeripherals(withIdentifiers: [(discoveredPeripheral?.identifier)!])      //RECONNECT
+            return
+        }else{
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(200)) {
+                print("didWriteValueFor")
+                peripheral.delegate = self
+                peripheral.discoverServices(nil)
+            }
+            
+            
+        }
+        
+    }
+    
+    func convertToInt(_ characteristic: CBCharacteristic) -> Int {
+        
+        var wavelength: UInt16?
+        
+        if let data = characteristic.value {
+            
+            var bytes = Array(repeating: 0 as UInt8, count:data.count/MemoryLayout<UInt8>.size)
+            
+            
+            data.copyBytes(to: &bytes, count:data.count)
+            let data16 = bytes.map { UInt16($0) }
+            wavelength = 256 * data16[1] + data16[0]
+        }
+        
+        if let characValue = wavelength {
+            print("didWriteValueFor TIMER B  \(characValue)")
+            
+            return Int(characValue)
+        }
+        
+        return -1
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        
+        if (error != nil) {
+            print("Encountered error DC: \(error!.localizedDescription)")
+            centralManager.cancelPeripheralConnection(peripheral)               //DISCONNECT
+            //centralManager.retrievePeripherals(withIdentifiers: [(discoveredPeripheral?.identifier)!])      //RECONNECT
+            startScan()
+            return
+        }
     }
 }
+
+

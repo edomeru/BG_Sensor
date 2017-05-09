@@ -56,6 +56,7 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
     
     func didStartScan() {
         connectingLabel.isHidden = false
+      connectingLabel.text = "Connecting..."
         secureImage.isHidden = true
         sensorTriggered.isHidden = true
         exclamationImage.isHidden = true

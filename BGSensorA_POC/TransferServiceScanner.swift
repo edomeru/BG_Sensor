@@ -86,7 +86,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         //CHECK NUMBER OF BG SENSOR DEVICES, IF ZERO RECALL CBCentralManager
         if let localName = nameOfDeviceFound {
             
-            delegate?.didStartScan()
+          
             
             
             if localName.contains(deviceName){
@@ -98,9 +98,13 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
             
             print("NUMBER OF BG SENSOR! \(self.numberofBGSensor)")
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(1500)) {
+          
             if(deviceName == localName as String ){
-                
+              
+              self.delegate?.didStartScan()
+              print("BEFORE TIMER")
+              DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(800)) {
+                print("AFTER TIMER")
                 if self.discoveredPeripheral == nil {
                     
                     print("discoveredPeripheral NIL BA? \(self.discoveredPeripheral)")

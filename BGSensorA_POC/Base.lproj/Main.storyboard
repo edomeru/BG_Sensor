@@ -78,10 +78,10 @@
                                     <constraint firstAttribute="width" constant="375" id="uQX-ph-rAu"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor-triggered" translatesAutoresizingMaskIntoConstraints="NO" id="uQo-dQ-4Nj">
-                                <rect key="frame" x="17" y="282" width="343" height="92"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sensor-triggered" translatesAutoresizingMaskIntoConstraints="NO" id="uQo-dQ-4Nj">
+                                <rect key="frame" x="17" y="273" width="343" height="101"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="92" id="6w6-nc-Nah"/>
+                                    <constraint firstAttribute="height" constant="101" id="6w6-nc-Nah"/>
                                     <constraint firstAttribute="width" constant="343" id="I2M-Ck-5LO"/>
                                 </constraints>
                             </imageView>
@@ -120,14 +120,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cc-7t-BDI">
+                                <rect key="frame" x="263" y="626" width="96" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="HPT-oL-jdN"/>
+                                    <constraint firstAttribute="width" constant="96" id="fcL-pU-obs"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Industry-Book" family="Industry" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.54891865974723464" green="0.88194061499975107" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="b1y-cC-Rxl" secondAttribute="leading" id="4hN-Ww-eGg"/>
                             <constraint firstItem="gRf-Gp-ROJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-13.5" id="7sN-zz-Lxc"/>
                             <constraint firstItem="dGs-jF-bUi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="9" id="8B4-WM-vej"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4cc-7t-BDI" secondAttribute="trailing" id="Avk-sr-bLg"/>
                             <constraint firstItem="CI3-It-qTH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="63" id="Bi6-QD-9cZ"/>
-                            <constraint firstItem="uQo-dQ-4Nj" firstAttribute="top" secondItem="oXe-4y-0UY" secondAttribute="bottom" constant="8" id="EUg-hH-ox7"/>
+                            <constraint firstItem="uQo-dQ-4Nj" firstAttribute="top" secondItem="oXe-4y-0UY" secondAttribute="bottom" constant="-1" id="EUg-hH-ox7"/>
                             <constraint firstItem="uQo-dQ-4Nj" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="1" id="GA3-Zm-p9E"/>
                             <constraint firstItem="PS5-BR-ASg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="0.5" id="HAY-Q0-5rN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bMC-zC-vdL" secondAttribute="trailing" constant="31" id="NBV-rU-5AF"/>
@@ -142,7 +153,8 @@
                             <constraint firstItem="bMC-zC-vdL" firstAttribute="top" secondItem="uQo-dQ-4Nj" secondAttribute="bottom" constant="8" id="hr7-Iw-Ve8"/>
                             <constraint firstAttribute="trailing" secondItem="dGs-jF-bUi" secondAttribute="trailing" constant="16" id="iXl-zW-7cT"/>
                             <constraint firstItem="uQo-dQ-4Nj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="1" id="kAa-wj-Y5s"/>
-                            <constraint firstItem="uQo-dQ-4Nj" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-5.5" id="lIX-Gp-DLw"/>
+                            <constraint firstItem="uQo-dQ-4Nj" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-10" id="lIX-Gp-DLw"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="4cc-7t-BDI" secondAttribute="bottom" constant="20" id="lNf-PT-t0r"/>
                             <constraint firstAttribute="trailing" secondItem="LXd-tj-0wN" secondAttribute="trailing" id="oOy-vA-Dgb"/>
                             <constraint firstItem="CI3-It-qTH" firstAttribute="top" secondItem="uQo-dQ-4Nj" secondAttribute="bottom" constant="8" id="oYk-C3-QWa"/>
                             <constraint firstItem="dGs-jF-bUi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-4" id="qsd-n1-8gK"/>
@@ -159,6 +171,7 @@
                         <outlet property="sensorTriggered" destination="uQo-dQ-4Nj" id="leb-VT-hP8"/>
                         <outlet property="timeLabel" destination="PS5-BR-ASg" id="9sN-oh-HWZ"/>
                         <outlet property="timerTrigger" destination="CI3-It-qTH" id="6fR-ak-si3"/>
+                        <outlet property="versionLabel" destination="4cc-7t-BDI" id="iTj-1g-mVw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

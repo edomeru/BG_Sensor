@@ -16,6 +16,7 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
     @IBOutlet weak var garageDoorLabel: UILabel!
     @IBOutlet weak var secureTimer: UILabel!
     
+    @IBOutlet weak var versionLabel: UILabel!
     @IBOutlet weak var timerTrigger: UILabel!
     @IBOutlet weak var sensorTriggered: UIImageView!
     @IBOutlet weak var secureImage: UIImageView!
@@ -39,6 +40,8 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
         print("DATE \(dateString)")
         secureTimer.text = self.dateString
         timerTrigger.text = self.dateString
+        
+        applicationInfo()
        
     }
 
@@ -106,6 +109,16 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
         secureTimer.isHidden = true
         exclamationImage.isHidden = false
     }
+    
+    fileprivate func applicationInfo() {/// SET VERSION NUMBER AT THE BOTTOM
+       
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            versionLabel.text = "v\(version)"
+        }
+        
+      
+        
+            }
     
 }
 

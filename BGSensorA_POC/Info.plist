@@ -15,11 +15,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.0</string>
+	<string>1.0.2</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Advertisement would like to use bluetooth</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FortFoundry-IndustryBold.otf</string>

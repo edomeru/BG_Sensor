@@ -23,6 +23,7 @@ protocol TransferServiceScannerDelegate: NSObjectProtocol {
     func didConnect()
     func didNotConnect()
     func didTrigger()
+    func didStartSearch()
     func didTransferData(data: NSData?)
 }
 
@@ -48,6 +49,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         case .poweredOn:
             print("Central Manager powered on.")
             startScan()
+            
             break
         case .poweredOff:
             print("Central Manager powered off.")
@@ -63,7 +65,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         print("Start scan")
         
         centralManager.scanForPeripherals(withServices: nil, options: nil)
-        delegate?.didStartScan()
+        delegate?.didStartSearch()
     }
     
     func stopScan() {
@@ -84,6 +86,9 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         //CHECK NUMBER OF BG SENSOR DEVICES, IF ZERO RECALL CBCentralManager
         if let localName = nameOfDeviceFound {
             
+            delegate?.didStartScan()
+            
+            
             if localName.contains(deviceName){
                 
                 self.numberofBGSensor += 1
@@ -93,36 +98,37 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
             
             print("NUMBER OF BG SENSOR! \(self.numberofBGSensor)")
             
-            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(1500)) {
             if(deviceName == localName as String ){
                 
-                if discoveredPeripheral == nil {
+                if self.discoveredPeripheral == nil {
                     
-                    print("discoveredPeripheral NIL BA? \(discoveredPeripheral)")
-                    discoveredPeripheral = peripheral
-                    print("discoveredPeripheral AFTER \(discoveredPeripheral)")
+                    print("discoveredPeripheral NIL BA? \(self.discoveredPeripheral)")
+                    self.discoveredPeripheral = peripheral
+                    print("discoveredPeripheral AFTER \(self.discoveredPeripheral)")
                     print("connecting to peripheral \(peripheral)")
-                    centralManager.connect(peripheral, options: nil)
+                    self.centralManager.connect(peripheral, options: nil)
                     
                     
                     
                 }else{
                     
-                    if (discoveredPeripheral?.identifier != peripheral.identifier) {
-                        discoveredPeripheral = peripheral
+                    if (self.discoveredPeripheral?.identifier != peripheral.identifier) {
+                        self.discoveredPeripheral = peripheral
                     }
                     
-                    print("discoveredPeripheral ELSE NIL BA? \(discoveredPeripheral)")
+                    print("discoveredPeripheral ELSE NIL BA? \(self.discoveredPeripheral)")
                     
                     print("connecting to peripheral ELSE \(peripheral)")
                     
-                    if let discoverPeripheral = discoveredPeripheral{
-                        centralManager.connect(discoverPeripheral, options: nil)
+                    if let discoverPeripheral = self.discoveredPeripheral{
+                        self.centralManager.connect(discoverPeripheral, options: nil)
                     }
                 }
                 
                 
                 
+            }
             }
         }
     }
@@ -313,7 +319,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
             print("Encountered error DC: \(error!.localizedDescription)")
             centralManager.cancelPeripheralConnection(peripheral)               //DISCONNECT
             //centralManager.retrievePeripherals(withIdentifiers: [(discoveredPeripheral?.identifier)!])      //RECONNECT
-              startScan()
+            startScan()
             return
         }
     }

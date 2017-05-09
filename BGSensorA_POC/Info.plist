@@ -22,6 +22,7 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>FortFoundry-IndustryBold.otf</string>
 		<string>FortFoundry-IndustryBook.otf</string>
 		<string>FortFoundry-IndustryMedium.otf</string>
 	</array>

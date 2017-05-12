@@ -20,7 +20,7 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
     @IBOutlet weak var timerTrigger: UILabel!
     @IBOutlet weak var sensorTriggered: UIImageView!
     @IBOutlet weak var secureImage: UIImageView!
-     var isScanning: Bool = false
+    var isScanning: Bool = false
     var tktCoreLocation: TransferServiceScanner!
     var centralManager: CBCentralManager!
     @IBOutlet weak var timeLabel: UILabel!
@@ -29,40 +29,32 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
-       tktCoreLocation = TransferServiceScanner(delegate: self)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
-        
-         dateString = formatter.string(from: Date())
-        print("DATE \(dateString)")
-        secureTimer.text = self.dateString
-        timerTrigger.text = self.dateString
-        
+        tktCoreLocation = TransferServiceScanner(delegate: self)
+        showTime()
         applicationInfo()
-       
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.showTimeForground(_:)), name: NSNotification.Name(rawValue: "showTime"), object: nil)
+        
     }
-
     
     
-//    @IBAction func connectFunc(_ sender: Any) {
-//        tktCoreLocation.startScan()
-//    }
-//    
-//
-//    @IBAction func dcFunc(_ sender: Any) {
-//        tktCoreLocation.stopScan()
-//    }
+    
+    //    @IBAction func connectFunc(_ sender: Any) {
+    //        tktCoreLocation.startScan()
+    //    }
+    //
+    //
+    //    @IBAction func dcFunc(_ sender: Any) {
+    //        tktCoreLocation.stopScan()
+    //    }
     
     
     func didStartScan() {
         connectingLabel.isHidden = false
-      connectingLabel.text = "Connecting..."
+        connectingLabel.text = "Connecting..."
         secureImage.isHidden = true
         sensorTriggered.isHidden = true
         exclamationImage.isHidden = true
+        showTime()
     }
     func didStartSearch() {
         connectingLabel.isHidden = false
@@ -70,6 +62,7 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
         secureImage.isHidden = true
         sensorTriggered.isHidden = true
         exclamationImage.isHidden = true
+        showTime()
     }
     
     func didStopScan() {
@@ -84,12 +77,13 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
     func didConnect() {
         connectingLabel.isHidden = true
         secureImage.isHidden = false
-//        secureImage.image =  UIImage(named: "secure")
+        //        secureImage.image =  UIImage(named: "secure")
         sensorTriggered.isHidden = true
         garageDoorLabel.isHidden = true
         timerTrigger.isHidden = true
-         secureTimer.isHidden = false
+        secureTimer.isHidden = false
         exclamationImage.isHidden = true
+        showTime()
     }
     
     func didNotConnect() {
@@ -97,28 +91,45 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
         secureImage.isHidden = true
         sensorTriggered.isHidden = true
         exclamationImage.isHidden = true
+        showTime()
     }
     
     func didTrigger() {
         connectingLabel.isHidden = true
-//        secureImage.image =  UIImage(named: "sensor-triggered")
+        //        secureImage.image =  UIImage(named: "sensor-triggered")
         secureImage.isHidden = true
         sensorTriggered.isHidden = false
         garageDoorLabel.isHidden = false
         timerTrigger.isHidden = false
         secureTimer.isHidden = true
         exclamationImage.isHidden = false
+        showTime()
+    }
+    
+    func showTime(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        dateString = formatter.string(from: Date())
+        print("DATE \(dateString)")
+        secureTimer.text = self.dateString
+        timerTrigger.text = self.dateString
+        
     }
     
     fileprivate func applicationInfo() {/// SET VERSION NUMBER AT THE BOTTOM
-       
+        
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             versionLabel.text = "v\(version)"
         }
-        
-      
-        
-            }
+    }
+    
+    func showTimeForground(_ notification: Notification) {
+        showTime()
+        print("showTimeForground")
+    }
+    
     
 }
 

@@ -40,6 +40,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
     init(delegate: TransferServiceScannerDelegate?) {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
+        
         self.delegate = delegate
         numberofBGSensor = 0
     }

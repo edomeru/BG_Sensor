@@ -75,15 +75,31 @@ class HomeViewController: UIViewController, TransferServiceScannerDelegate {
     }
     
     func didConnect() {
-        connectingLabel.isHidden = true
-        secureImage.isHidden = false
-        //        secureImage.image =  UIImage(named: "secure")
-        sensorTriggered.isHidden = true
-        garageDoorLabel.isHidden = true
-        timerTrigger.isHidden = true
-        secureTimer.isHidden = false
-        exclamationImage.isHidden = true
-        showTime()
+        didStartScan()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(800)) {
+            self.connectingLabel.isHidden = true
+            self.secureImage.isHidden = false
+            //        secureImage.image =  UIImage(named: "secure")
+            self.sensorTriggered.isHidden = true
+            self.garageDoorLabel.isHidden = true
+            self.timerTrigger.isHidden = true
+            self.secureTimer.isHidden = false
+            self.exclamationImage.isHidden = true
+            self.showTime()
+        
+        }
+    }
+    
+        func didConnect_2() {
+                self.connectingLabel.isHidden = true
+                self.secureImage.isHidden = false
+                //        secureImage.image =  UIImage(named: "secure")
+                self.sensorTriggered.isHidden = true
+                self.garageDoorLabel.isHidden = true
+                self.timerTrigger.isHidden = true
+                self.secureTimer.isHidden = false
+                self.exclamationImage.isHidden = true
+                showTime()
     }
     
     func didNotConnect() {

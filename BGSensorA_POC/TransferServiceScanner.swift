@@ -240,7 +240,6 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
             print("TIMER B")
             self.timerB(peripheral,characteristic: characteristic)
         }
-        
     }
     
     
@@ -268,7 +267,7 @@ class TransferServiceScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDe
         if (error != nil) {
             print("Encountered error: \(error!.localizedDescription)")
             centralManager.cancelPeripheralConnection(peripheral)               //DISCONNECT
-            centralManager.retrievePeripherals(withIdentifiers: [(discoveredPeripheral?.identifier)!])      //RECONNECT
+            startScan()     //RECONNECT
             return
         }else{
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(200)) {

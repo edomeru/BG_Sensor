@@ -30,6 +30,11 @@
 		<string>FortFoundry-IndustryBook.otf</string>
 		<string>FortFoundry-IndustryMedium.otf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>bluetooth-central</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
